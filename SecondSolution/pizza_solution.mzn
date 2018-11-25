@@ -15,11 +15,14 @@ array[1..n] of var bool: Paid;
 % unary relation for the set of used coupons
 array[1..m] of var bool: Used;
 
+set of int: PIZZA = 1..n;
+set of int: VOUCHER = 1..m;
+
 % Justifies(v, p) holds if pizza p was paid and used voucher c
-array[1..m, 1..n] of var bool: Justifies;
+array[VOUCHER, PIZZA] of var bool: Justifies;
 
 % UsedFor(v, p) holds if pizza p was free by using voucher c
-array[1..m, 1..n] of var bool: UsedFor;
+array[VOUCHER, PIZZA] of var bool: UsedFor;
 
 % ================= CONSTRAINTS
 %
@@ -54,6 +57,18 @@ constraint forall(p1, p2 in 1..n, c in 1..m)
 % we need to pay for the pizzas we used on coupon c
 constraint forall(p in 1..n, c in 1..m)
             (Justifies[c, p] <-> Paid[p]);
+
+% check if v and p are in range in Justifies
+constraint forall(v in 1..m, p in 1..n)
+            (Justifies[v, p]
+            ->
+            (((v >= 1) /\ (v <= m)) /\ ((p >= 1) /\ (p <= n))));
+
+% check if v and p are in range in UsedFor
+constraint forall(v in 1..m, p in 1..n)
+            (UsedFor[v,p]
+            ->
+            (((v >= 1 ) /\ (v <= m)) /\ ((p >=1) /\ (p <= n))));
 
 % get the total cost so we minimize it later
 int: total = sum(price);
