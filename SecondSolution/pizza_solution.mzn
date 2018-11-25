@@ -41,12 +41,6 @@ constraint forall(v in 1..m)
             ->
             sum(p in 1..n)(Justifies[v, p]) >= buy[v]);
 
-%blah
-constraint forall(v in 1..m) (
-  forall(p in 1..n)
-    (Justifies[v,p] -> not exists(w in 1..m where v != w)(Justifies[w,p])
-));
-
 % for every voucher v, if v in UsedFor, the # of p cannot > free
 constraint forall(v in 1..m)
             (sum(p in 1..n)(UsedFor[v, p]) <= free[v]);
@@ -56,6 +50,12 @@ constraint forall(p1, p2 in 1..n where p1 != p2, c in 1..m)
             ((UsedFor[c, p1] /\ Justifies[c, p2])
              ->
              price[p1] <= price[p2]);
+
+% for every pair c1, c2 if c1 in Justifies a p then c2 not Justifies same p
+constraint forall(v1, v2 in 1..m where v1 != v2, p in 1..n)
+            (Justifies[v1, p]
+            ->
+            not (Justifies[v2, p]));
 
 % we need to pay for the pizzas we used on coupon c
 constraint forall(p in 1..n, c in 1..m)
@@ -76,6 +76,8 @@ constraint forall(v in 1..m, p in 1..n)
 % get the total cost so we minimize it later
 int: total = sum(price);
 var int: COST =(sum(p in 1..n)(Paid[p] * price[p]));
+
+% make sure the COST is at least as good as the total
 constraint COST <= total;
 
 solve minimize COST;
