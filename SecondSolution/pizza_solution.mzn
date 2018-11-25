@@ -15,14 +15,11 @@ array[1..n] of var bool: Paid;
 % unary relation for the set of used coupons
 array[1..m] of var bool: Used;
 
-set of int: PIZZA = 1..n;
-set of int: VOUCHER = 1..m;
-
 % Justifies(v, p) holds if pizza p was paid and used voucher c
-array[VOUCHER, PIZZA] of var bool: Justifies;
+array[1..m, 1..n] of var bool: Justifies;
 
 % UsedFor(v, p) holds if pizza p was free by using voucher c
-array[VOUCHER, PIZZA] of var bool: UsedFor;
+array[1..m, 1..n] of var bool: UsedFor;
 
 % ================= CONSTRAINTS
 %
@@ -75,8 +72,7 @@ int: total = sum(price);
 var 0..total: COST =
                 (sum(p in 1..n)(Paid[p] * price[p]));
 
-solve :: int_search(Paid, input_order, indomain_min, complete)
-         minimize COST;
+solve minimize COST;
 
 output [ "Paid = " ++ show(bool2int(Paid)) ++ "\n" ++
          "Used = " ++ show(bool2int(Used)) ++ "\n" ++
