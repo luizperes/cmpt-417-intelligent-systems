@@ -1,57 +1,70 @@
 % PIZZA PROBLEM AS PER DESCRIBED ON:
 % http://picat-lang.org/lp_cp_pc/Pizza.html
+
+% ================= DEFINITIONS
+%
+% Initial Input
 int: n;
 array[1..n] of int: price;
 int: m;
-array[1..m] of 1..m: buy;
-array[1..m] of 1..m: free;
+array[1..m] of int: buy;
+array[1..m] of int: free;
 
-% enum describing the 3 options:
-% we buy the pizza
-% we get free pizza
-% we don't use the voucher
-enum OPTION = { BUY, NO_VOUCHER, FREE };
+% unary relation for the set of paid pizzas
+array[1..n] of var bool: Paid;
+% unary relation for the set of used coupons
+array[1..m] of var bool: Used;
 
-% reason of pizza
-array[1..n] of var OPTION: reason;
+% Justifies(v, p) holds if pizza p was paid and used voucher c
+array[1..m, 1..n] of var bool: Justifies;
 
-% array of used vouchers
-array[1..m] of var bool: used;
+% UsedFor(v, p) holds if pizza p was free by using voucher c
+array[1..m, 1..n] of var bool: UsedFor;
 
-constraint forall(voucher in 1..m)
-            (used[voucher]
+% ================= CONSTRAINTS
+%
+% for every pizza p, if p in Paid then p not in UsedFor, for all v
+constraint forall(p in 1..n)
+            (Paid[p]
             <->
-            buy[voucher] >= sum(pizza in 1..n)(reason[pizza] = BUY));
+            not exists(v in 1..m)(UsedFor[v, p]));
 
-constraint forall(voucher in 1..m)
-            (used[voucher] * buy[voucher]
-            <=
-            sum(pizza in 1..n)(reason[pizza] = BUY));
+% for every voucher v, if v in Used then v in UsedFor, for some p
+constraint forall(v in 1..m)
+            (Used[v]
+            <->
+            exists(p in 1..n)(UsedFor[v, p]));
 
-constraint forall(voucher in 1..m)
-            (used[voucher] * free[voucher]
-            <=
-            sum(pizza in 1..n)(reason[pizza] = FREE));
+% for every voucher v, if v in Used, the # of Justifies p cannot < buy
+constraint forall(v in 1..m)
+            (Used[v]
+            ->
+            sum(p in 1..n)(Justifies[v, p]) >= buy[v]);
 
-% for every pair of pizza free pizzas are cheaper            
-constraint forall(pizza1, pizza2 in 1..n)
-            ((
-              (reason[pizza1] = BUY)
-              /\
-              (reason[pizza2] = FREE)
-              ->
-            price[pizza2] <= price[pizza1]));
+% for every voucher v, if v in UsedFor, the # of p cannot > free
+constraint forall(v in 1..m)
+            (sum(p in 1..n)(UsedFor[v, p]) <= free[v]);
+
+% for every pair p1, p2 if p1 in UsedFor and p2 in Justifies then p1 <= p2
+constraint forall(p1, p2 in 1..n, c in 1..m)
+            ((UsedFor[c, p1] /\ Justifies[c, p2])
+             ->
+             price[p1] <= price[p2]);
+
+% we need to pay for the pizzas we used on coupon c
+constraint forall(p in 1..n, c in 1..m)
+            (Justifies[c, p] <-> Paid[p]);
 
 % get the total cost so we minimize it later
 int: total = sum(price);
 var 0..total: COST =
-                (sum(pizza in 1..n)
-                  (((reason[pizza] = NO_VOUCHER) \/ (reason[pizza] = BUY))
-                *
-                price[pizza]));
+                (sum(p in 1..n)(Paid[p] * price[p]));
 
-solve :: int_search(reason, input_order, indomain_min, complete)
+solve :: int_search(Paid, input_order, indomain_min, complete)
          minimize COST;
 
-output [ "pizza = " ++ show(reason) ++ "\n" ++
-          "cost = " ++ show(COST) ];
+output [ "Paid = " ++ show(bool2int(Paid)) ++ "\n" ++
+         "Used = " ++ show(bool2int(Used)) ++ "\n" ++
+         "Justifies = " ++ show(bool2int(Justifies)) ++ "\n" ++
+         "UsedFor = " ++ show(bool2int(UsedFor)) ++ "\n" ++
+         "COST = " ++ show(COST) ];
