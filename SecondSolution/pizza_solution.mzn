@@ -65,13 +65,13 @@ constraint forall(p in 1..n, c in 1..m)
 constraint forall(v in 1..m, p in 1..n)
             (Justifies[v, p]
             ->
-            (((v >= 1) /\ (v <= m)) /\ ((p >= 1) /\ (p <= n))));
+            (v in 1..m /\ p in 1..n));
 
 % check if v and p are in range in UsedFor
 constraint forall(v in 1..m, p in 1..n)
             (UsedFor[v,p]
             ->
-            (((v >= 1 ) /\ (v <= m)) /\ ((p >=1) /\ (p <= n))));
+            (v in 1..m /\ p in 1..n));
 
 % get the total cost so we minimize it later
 int: total = sum(price);
