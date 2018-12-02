@@ -23,6 +23,12 @@ This project aims to solve the \textbf{Pizza} problem given in the \textit{LP/CP
 \\
 \tab In this document, we first specify the problem by defining our vocabulary functions and constant symbols. Let this vocabulary be $A$ for a structure $\mathcal{A}$. Then we will show that, to solve this problem, we must find a structure $\mathcal{B}$ that extends $\mathcal{A}$ such that when we satisfy all constraints in $\mathcal{B}$, we find a satisfying assignment for the elements in $\mathcal{A}$. After specifying our vocabularies and constraint relations, we will show some tests instances of the problem run on \textbf{Minizinc} solver that will be then have their performance empirically evaluated. Finally, we will have a short discussion about the process of solving the Pizza problem.
 \section{Specification}
+The pizza problem is as follows:
+\begin{itemize}
+\item The final goal is obtain all ordered pizzas for the least possible cost.
+\item A voucher is a pair of numbers $(a, b)$ where you pay for $a$ pizzas and obtain $b$ pizzas for free as long as each of the $b$ pizzas cost no more than each of the $a$ pizzas.
+\item A voucher does not need to be completely used and not all vouchers need to be used.
+\end{itemize}
 \section{Testing}
 \section{Empirical Performance}
 \section{Discussion}
