@@ -83,6 +83,19 @@ The pizza problem is as follows:
 \State \tab\tab\tab\tab $price[p1] <= price[p2]);$
 \\
 \end{algorithmic}
+\item Two vouchers $v_1, v_2$ cannot be justified by using the same paid pizza $p$
+\begin{algorithmic}
+\State \textbf{constraint forall} ($v1, v2$ \textbf{in} $1..m$ \textbf{where} $v1$ != $v2,$
+\State \tab\tab\tab\tab\tab\tab\tab\tab $\text{ } p$ \textbf{in} $1..n$)
+\State \tab\tab $(Justifies[v1, p] \rightarrow \textbf{not} (Justifies[v2, p]));$
+\\
+\end{algorithmic}
+\item We pay for every pizza $p$ used to justify use of a voucher $v$
+\begin{algorithmic}
+\State \textbf{constraint forall} ($p$ \textbf{in} $1..n$, $v$ \textbf{in} $1..m$)
+\State \tab\tab $(Justifies[v, p] \rightarrow Paid[p]);$
+\\
+\end{algorithmic}
 \end{itemize}
 \section{Testing}
 \section{Empirical Performance}
