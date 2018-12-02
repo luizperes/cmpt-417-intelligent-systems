@@ -29,7 +29,7 @@ The pizza problem is as follows:
 \item A voucher is a pair of numbers $(a, b)$ where you pay for $a$ pizzas and obtain $b$ pizzas for free as long as each of the $b$ pizzas cost no more than each of the $a$ pizzas.
 \item A voucher does not need to be completely used and not all vouchers need to be used.
 \end{itemize}
-\tab We may then define the vocabulary $\mathcal{L} = [ price, buy, free, n, m ]$ where 
+\tab A vocabulary $\mathcal{L}$ then can be defined by the symbols $[ price, buy, free, n, m ]$ where $n$ is the number of pizzas, $m$ is the number of coupons, $price : [n] \rightarrow \mathbb{N}$ is an unary function that maps the price of each one of the $n$ pizzas, $buy : [m] \rightarrow \mathbb{N}$ is an unary function that maps the number of pizzas that must be bought for each one of the $m$ vouchers and $free : [m] \rightarrow \mathbb{N}$ is an unary function that maps the number of pizzas that come for free when a voucher is used, for each one of the $m$ vouchers.
 \section{Testing}
 \section{Empirical Performance}
 \section{Discussion}
