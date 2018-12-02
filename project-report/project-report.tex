@@ -48,13 +48,21 @@ The pizza problem is as follows:
 \end{algorithmic}
 \tab To find a solution to instance $\mathcal{L}$ we must solve for vocabulary $\mathcal{L'}$ and $\mathcal{L'}$-structure $\mathcal{M}$ and satisfy the problem constraints in \textbf{Minizinc}:
 \begin{itemize}
-\item If we paid for a pizza, then we cannot get it for free:
+\item If we paid for a pizza $p$, then it cannot be in the set of free pizzas:
 \begin{algorithmic}
-\State \textbf{constraint forall} (p \textbf{in} $1..n$)
+\State \textbf{constraint forall} ($p$ \textbf{in} $1..n$)
 \State \tab\tab $(Paid[p]\leftrightarrow
            \textbf{not exists}(v \text{ in } 1..m)(UsedFor[v, p]));$
+\\
 \end{algorithmic}
-\item dd
+\item If voucher $v$ is used, then it must get at least one free pizza $p$ with it
+\begin{algorithmic}
+\State \textbf{constraint forall} ($v$ \textbf{in} $1..m$)
+\State \tab\tab $(Used[v]\leftrightarrow
+           \textbf{exists}(p \textbf{ in } 1..n)(UsedFor[v, p]));$
+\\
+\end{algorithmic}
+\item Any used coupon $c$ must be justified by paying for exactly some pizzas $p$
 \end{itemize}
 \section{Testing}
 \section{Empirical Performance}
