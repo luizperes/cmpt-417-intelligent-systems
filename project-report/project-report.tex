@@ -21,14 +21,15 @@ This project aims to solve the \textbf{Pizza} problem given in the \textit{LP/CP
 \tab Because we want to minimize the total possible cost for all ordered pizzas, the problem is then an optimization problem and not only satisfiability, meaning that we start our initial $K$, where $K$ is our target cost, with the sum of prices of all pizzas with no vouchers used, as this is the maximum possible cost for this problem and, therefore, if we were to choose any $K$ larger than that, $K$ could be improved to at least as good as the total sum of the pizza prices. We repeat the process by looking for satisfiable instances of that $K'$ that are smaller than our previous $K$ and stop whenever we cannot satisfy $K'$, meaning that $K'$ is the least possible value of $K$.
 \\
 \\
-\tab In this document, we first specify the problem by defining our vocabulary functions and constant symbols. Let this vocabulary be $A$ for a structure $\mathcal{A}$. Then we will show that, to solve this problem, we must find a structure $\mathcal{B}$ that extends $\mathcal{A}$ such that when we satisfy all constraints in $\mathcal{B}$, we find a satisfying assignment for the elements in $\mathcal{A}$. After specifying our vocabularies and constraint relations, we will show some tests instances of the problem run on \textbf{Minizinc} solver that will be then have their performance empirically evaluated. Finally, we will have a short discussion about the process of solving the Pizza problem.
+\tab In this document, we first specify the problem by defining our vocabulary $\mathcal{L}$ of functions and constant symbols for an $\mathcal{L}$-structure $\mathcal{M}$. Then we will show that, to solve this problem, we must find a vocabulary $\mathcal{L'}$ (with a $\mathcal{L'}$-structure $\mathcal{M'}$) that extends $\mathcal{L}$ such that when we find a satisfiable instance of $M$ for all constraints in $\mathcal{L'}$, we find a satisfying instance for the initial problem, since $\mathcal{M'}$ and $\mathcal{M}$ share the same universe $M$. After specifying our vocabularies and constraint relations, we will show some tests instances of the problem run on \textbf{Minizinc} solver that will be then have their performance empirically evaluated. Finally, we will have a short discussion about the process of solving the Pizza problem.
 \section{Specification}
 The pizza problem is as follows:
 \begin{itemize}
-\item The final goal is obtain all ordered pizzas for the least possible cost.
+\item The final goal is to obtain all ordered pizzas for the least possible cost.
 \item A voucher is a pair of numbers $(a, b)$ where you pay for $a$ pizzas and obtain $b$ pizzas for free as long as each of the $b$ pizzas cost no more than each of the $a$ pizzas.
 \item A voucher does not need to be completely used and not all vouchers need to be used.
 \end{itemize}
+\tab We may then define the vocabulary $\mathcal{L} = [ price, buy, free, n, m ]$ where 
 \section{Testing}
 \section{Empirical Performance}
 \section{Discussion}
