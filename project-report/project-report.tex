@@ -96,6 +96,14 @@ The pizza problem is as follows:
 \State \tab\tab $(Justifies[v, p] \rightarrow Paid[p]);$
 \\
 \end{algorithmic}
+\item The pairs in $Justifies$ and $UsedFor$ can only be consisting of a voucher $v$ and a pizza $p$
+\begin{algorithmic}
+\State \textbf{constraint forall} ($v$ \textbf{in} $1..m$, $p$ \textbf{in} $1..n$)
+\State \tab\tab $(Justifies[v, p] \rightarrow (v \textbf{ in } 1..m \land p \textbf{ in } 1..n));$
+\State \textbf{constraint forall} ($v$ \textbf{in} $1..m$, $p$ \textbf{in} $1..n$)
+\State \tab\tab $(Used[v, p] \rightarrow (v \textbf{ in } 1..m \land p \textbf{ in } 1..n));$
+\\
+\end{algorithmic}
 \end{itemize}
 \section{Testing}
 \section{Empirical Performance}
