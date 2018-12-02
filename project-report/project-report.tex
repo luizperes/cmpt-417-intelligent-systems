@@ -104,6 +104,18 @@ The pizza problem is as follows:
 \State \tab\tab $(Used[v, p] \rightarrow (v \textbf{ in } 1..m \land p \textbf{ in } 1..n));$
 \\
 \end{algorithmic}
+\item The total cost ($k$, the sum of all paid pizzas) must be less or equal the sum of all pizza prices
+\begin{algorithmic}
+\State \textbf{int}: $total$ = \textbf{sum}($price$);
+\State \textbf{var int}: $k$ = (\textbf{sum}($p$ \textbf{in} $1..n)(Paid[p] * price[p]));$
+\State \textbf{constraint} $k <= total;$
+\\
+\end{algorithmic}
+\item And finally, we want to minimize the whole cost $K$
+\begin{algorithmic}
+\State \textbf{solve minimize} $k$;
+\\
+\end{algorithmic}
 \end{itemize}
 \section{Testing}
 \section{Empirical Performance}
