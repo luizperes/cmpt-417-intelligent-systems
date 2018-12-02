@@ -2,7 +2,7 @@
 \IEEEoverridecommandlockouts
 \usepackage{cite}
 \usepackage{amsmath,amssymb,amsfonts, mathrsfs}
-\usepackage{algorithmic}
+\usepackage{algpseudocode}
 \usepackage{graphicx}
 \usepackage{textcomp}
 \usepackage{listings} 
@@ -29,7 +29,14 @@ The pizza problem is as follows:
 \item A voucher is a pair of numbers $(a, b)$ where you pay for $a$ pizzas and obtain $b$ pizzas for free as long as each of the $b$ pizzas cost no more than each of the $a$ pizzas.
 \item A voucher does not need to be completely used and not all vouchers need to be used.
 \end{itemize}
-\tab A vocabulary $\mathcal{L}$ then can be defined by the symbols $[ price, buy, free, n, m ]$ where $n$ is the number of pizzas, $m$ is the number of coupons, $price : [n] \rightarrow \mathbb{N}$ is an unary function that maps the price of each one of the $n$ pizzas, $buy : [m] \rightarrow \mathbb{N}$ is an unary function that maps the number of pizzas that must be bought for each one of the $m$ vouchers and $free : [m] \rightarrow \mathbb{N}$ is an unary function that maps the number of pizzas that come for free when a voucher is used, for each one of the $m$ vouchers.
+\tab A vocabulary $\mathcal{L}$ then can be defined by the symbols $[ price, buy, free, n, m, k ]$ where $n$ is the number of pizzas, $m$ is the number of coupons, $k$ is the cost bound, $price : [n] \rightarrow \mathbb{N}$ is an unary function that maps the price of each one of the $n$ pizzas, $buy : [m] \rightarrow \mathbb{N}$ is an unary function that maps the number of pizzas that must be bought for each one of the $m$ vouchers and $free : [m] \rightarrow \mathbb{N}$ is an unary function that maps the number of pizzas that come for free when a voucher is used, for each one of the $m$ vouchers. The universe $M$ are all the numbers appearing in the structure. The \textbf{Minizinc} equivalent of $\mathcal{L}$ is:
+\begin{algorithmic}
+\State \textbf{int}: n;
+\State \textbf{array}[1..n] \textbf{of int}: price;
+\State \textbf{int}: m;
+\State \textbf{array}[1..m] \textbf{of int}: buy;
+\State \textbf{array}[1..m] \textbf{of int}: free;
+\end{algorithmic}
 \section{Testing}
 \section{Empirical Performance}
 \section{Discussion}
