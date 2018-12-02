@@ -1,20 +1,27 @@
 \documentclass[conference]{IEEEtran}
 \IEEEoverridecommandlockouts
 \usepackage{cite}
-\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{amsmath,amssymb,amsfonts, mathrsfs}
 \usepackage{algorithmic}
 \usepackage{graphicx}
 \usepackage{textcomp}
 \usepackage{listings} 
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
-
+\newcommand\tab[1][0.3cm]{\hspace*{#1}}
 \title{Project Report - CMPT 417}
 \author{Luiz Fernando Peres de Oliveira - 301288301 - lperesde@sfu.ca}
 \date{December 1st, 2017}
 \begin{document}
 \maketitle
-\section{Intro}
+\section{Introduction}
+This project aims to solve the \textbf{Pizza} problem given in the \textit{LP/CP Programming Contest 2015}, where some students in the University College Cork want to make a large order of pizza for a party such that they use as many vouchers collected throughout the year as they can. The final objective is to use the vouchers so to obtain all ordered pizzas with the least possible cost.
+\\
+\\
+\tab Because we want to minimize the total possible cost for all ordered pizzas, the problem is then an optimization problem and not only satisfiability, meaning that we start our initial $K$, where $K$ is our target cost, with the sum of prices of all pizzas with no vouchers used, as this is the maximum possible cost for this problem (meaning that any $K$ larger than that could be improved to at least as good as the total sum of the pizza prices).
+\\
+\\
+\tab We first specify the problem by defining our vocabulary functions and constant symbols. Let this vocabulary be $A$ for a structure $\mathcal{A}$. Then we will show that, to solve this problem, we must find a structure $\mathcal{B}$ that extends $\mathcal{A}$ such that when we satisfy all constraints in $\mathcal{B}$, we find a satisfying assignment for the elements in $\mathcal{A}$. After specifying our vocabularies and constraint relations, we will use \textbf{Minizinc} solver to run a list of tests on instances of the problem that will be then have its performance empirically evaluated. Finally, we will show a short discussion about the process of solving the problem.
 \section{Specification}
 \section{Testing}
 \section{Empirical Performance}
