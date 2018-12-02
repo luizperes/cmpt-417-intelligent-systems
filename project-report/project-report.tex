@@ -63,6 +63,13 @@ The pizza problem is as follows:
 \\
 \end{algorithmic}
 \item Any used coupon $c$ must be justified by paying for exactly some pizzas $p$
+\begin{algorithmic}
+\State \textbf{constraint forall} ($v$ \textbf{in} $1..m$)
+\State \tab\tab $(Used[v]\rightarrow$
+\State \tab\tab\tab $\textbf{sum}(p \text{ in } 1..n)(Justifies[v, p]) >= buy[v]);$
+\\
+\end{algorithmic}
+\item df
 \end{itemize}
 \section{Testing}
 \section{Empirical Performance}
