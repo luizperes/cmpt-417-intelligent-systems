@@ -29,7 +29,7 @@ The pizza problem is as follows:
 \item A voucher is a pair of numbers $(a, b)$ where you pay for $a$ pizzas and obtain $b$ pizzas for free as long as each of the $b$ pizzas cost no more than each of the $a$ pizzas.
 \item A voucher does not need to be completely used and not all vouchers need to be used.
 \end{itemize}
-\tab A vocabulary $\mathcal{L}$ then can be defined by the symbols $[ price, buy, free, n, m, k ]$ where $n$ is the number of pizzas, $m$ is the number of coupons, $k$ is the cost bound, $price : [n] \rightarrow \mathbb{N}$ is an unary function that maps the price of each one of the $n$ pizzas, $buy : [m] \rightarrow \mathbb{N}$ is an unary function that maps the number of pizzas that must be bought for each one of the $m$ vouchers and $free : [m] \rightarrow \mathbb{N}$ is an unary function that maps the number of pizzas that come for free when a voucher is used, for each one of the $m$ vouchers. The universe $M$ are all the numbers appearing in the structure. The \textbf{Minizinc} equivalent form of $\mathcal{L}$ is:
+\tab A vocabulary $\mathcal{L}$ then can be defined by the symbols $[ price, buy, free, n, m, k ]$ where $n$ is the number of pizzas, $m$ is the number of vouchers, $k$ is the cost bound, $price : [n] \rightarrow \mathbb{N}$ is an unary function that maps the price of each one of the $n$ pizzas, $buy : [m] \rightarrow \mathbb{N}$ is an unary function that maps the number of pizzas that must be bought for each one of the $m$ vouchers and $free : [m] \rightarrow \mathbb{N}$ is an unary function that maps the number of pizzas that come for free when a voucher is used, for each one of the $m$ vouchers. The universe $M$ are all the numbers appearing in the structure. The \textbf{Minizinc} equivalent form of $\mathcal{L}$ is:
 \begin{algorithmic}
 \State \textbf{int}: n;
 \State \textbf{array}[1..n] \textbf{of int}: price;
@@ -38,7 +38,7 @@ The pizza problem is as follows:
 \State \textbf{array}[1..m] \textbf{of int}: free;
 \\
 \end{algorithmic}
-\tab We need to find an assignment of pizzas and coupons that minimize the total cost $k$ and for this reason we will create a vocabulary $\mathcal{L'}$ that extends $\mathcal{L}$, where $\mathcal{L}$  and $\mathcal{L'}$ share the same universe. Let $\mathcal{L'}$ be defined by the symbols in $\mathcal{L}$ and the symbols $[ Paid, Used, Justifies, UsedFor ]$, where the symbol $Paid : [n] \rightarrow \{ 0, 1\}$ is an unary symbol representing the set of paid pizzas, $Used: [m] \rightarrow \{ 0, 1\}$ is an unary symbol representing the set of used coupons, $Justifies: [m] \rightarrow [n] \rightarrow \{ 0, 1\}$ is a binary symbol representing the set of coupons $c$ that will be used by paying for pizzas $p$ and $UsedFor: [m] \rightarrow [n] \rightarrow \{ 0, 1\}$ is a binary symbol representing the set of free pizzas $p$ that were obtained by using coupons $c$. The \textbf{Minizinc} equivalent form of $\mathcal{L'}$ is:
+\tab We need to find an assignment of pizzas and vouchers that minimize the total cost $k$ and for this reason we will create a vocabulary $\mathcal{L'}$ that extends $\mathcal{L}$, where $\mathcal{L}$  and $\mathcal{L'}$ share the same universe. Let $\mathcal{L'}$ be defined by the symbols in $\mathcal{L}$ and the symbols $[ Paid, Used, Justifies, UsedFor ]$, where the symbol $Paid : [n] \rightarrow \{ 0, 1\}$ is an unary symbol representing the set of paid pizzas, $Used: [m] \rightarrow \{ 0, 1\}$ is an unary symbol representing the set of used vouchers, $Justifies: [m] \rightarrow [n] \rightarrow \{ 0, 1\}$ is a binary symbol representing the set of vouchers $v$ that will be used by paying for pizzas $p$ and $UsedFor: [m] \rightarrow [n] \rightarrow \{ 0, 1\}$ is a binary symbol representing the set of free pizzas $p$ that were obtained by using vouchers $v$. The \textbf{Minizinc} equivalent form of $\mathcal{L'}$ is:
 \begin{algorithmic}
 \State \textbf{array}$[1..n]$ \textbf{of var bool}: Paid;
 \State \textbf{array}$[1..m]$ \textbf{of var bool}: Used;
@@ -62,19 +62,20 @@ The pizza problem is as follows:
            \textbf{exists}(p \textbf{ in } 1..n)(UsedFor[v, p]));$
 \\
 \end{algorithmic}
-\item Any used coupon $c$ must be justified by paying for exactly some pizzas $p$
+\item Any used voucher $v$ must be justified by paying for exactly some pizzas $p$
 \begin{algorithmic}
 \State \textbf{constraint forall} ($v$ \textbf{in} $1..m$)
 \State \tab\tab $(Used[v]\rightarrow$
 \State \tab\tab\tab $\textbf{sum}(p \text{ in } 1..n)(Justifies[v, p]) >= buy[v]);$
 \\
 \end{algorithmic}
-\item The number of free pizzas cannot be greater than what is possible by using coupon $c$
+\item The number of free pizzas cannot be greater than what is possible by using voucher $v$
 \begin{algorithmic}
 \State \textbf{constraint forall} ($v$ \textbf{in} $1..m$)
 \State \tab\tab $(\textbf{sum}(p \text{ in } 1..n)(UsedFor[v, p]) <= free[v])$;
 \\
 \end{algorithmic}
+\item For every two pizzas $p_1, p_2$, if $p_1$ was a pizza we got for free with voucher $v$ and $p_2$ is a pizza we paid with voucher $v$, then the price of $p_1$ must be less or equal the price of $p_2$
 \end{itemize}
 \section{Testing}
 \section{Empirical Performance}
