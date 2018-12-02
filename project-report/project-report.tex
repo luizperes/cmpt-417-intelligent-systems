@@ -44,7 +44,18 @@ The pizza problem is as follows:
 \State \textbf{array}$[1..m]$ \textbf{of var bool}: Used;
 \State \textbf{array}$[1..m, 1..n]$ \textbf{of var bool}: Justifies;
 \State \textbf{array}$[1..m, 1..n]$ \textbf{of var bool}: UsedFor;
+\\
 \end{algorithmic}
+\tab To find a solution to instance $\mathcal{L}$ we must solve for vocabulary $\mathcal{L'}$ and $\mathcal{L'}$-structure $\mathcal{M}$ and satisfy the problem constraints in \textbf{Minizinc}:
+\begin{itemize}
+\item If we paid for a pizza, then we cannot get it for free:
+\begin{algorithmic}
+\State \textbf{constraint forall} (p \textbf{in} $1..n$)
+\State \tab\tab $(Paid[p]\leftrightarrow
+           \textbf{not exists}(v \text{ in } 1..m)(UsedFor[v, p]));$
+\end{algorithmic}
+\item dd
+\end{itemize}
 \section{Testing}
 \section{Empirical Performance}
 \section{Discussion}
