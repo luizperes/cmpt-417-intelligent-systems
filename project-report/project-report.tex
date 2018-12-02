@@ -69,7 +69,12 @@ The pizza problem is as follows:
 \State \tab\tab\tab $\textbf{sum}(p \text{ in } 1..n)(Justifies[v, p]) >= buy[v]);$
 \\
 \end{algorithmic}
-\item df
+\item The number of free pizzas cannot be greater than what is possible by using coupon $c$
+\begin{algorithmic}
+\State \textbf{constraint forall} ($v$ \textbf{in} $1..m$)
+\State \tab\tab $(\textbf{sum}(p \text{ in } 1..n)(UsedFor[v, p]) <= free[v])$;
+\\
+\end{algorithmic}
 \end{itemize}
 \section{Testing}
 \section{Empirical Performance}
