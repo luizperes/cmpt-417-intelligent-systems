@@ -9,7 +9,7 @@
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \newcommand\tab[1][0.3cm]{\hspace*{#1}}
-\title{Project Report - CMPT 417}
+\title{Project Report Draft - CMPT 417}
 \author{Luiz Fernando Peres de Oliveira - 301288301 - lperesde@sfu.ca}
 \date{December 1st, 2017}
 \begin{document}
@@ -233,10 +233,13 @@ We created initially three test instances (the ones given in the \textit{LP/CP P
 For means of empirical performance of the project, we will try to answer the question \#1: "Which is the best way to express a constraint? There is often more than one reasonable way to express a particular constraint on the solutions in a particular language, and sometimes these choices can have a very large effect on running time. You can compare performance with different versions of one constraint, or compare two very different specifications".
 \\
 \\
-\tab We will use two different constraint specifications for the pizza problem and will compare them. While writing the specification on \textbf{Minizinc}, there was an impression that when we specify constraints in linear form, where "linear" means that the problem is not specified nestedly such as \textbf{constraint forall}($p$ \textbf{in} $1..n$, $c$ \textbf{in} $1..m$)($...$), they seem to be optimized and perform faster than their nested equivalent form \textbf{constraint forall}($p$ \textbf{in} $1..n$)(\textbf{forall} $c$ \textbf{in} $1..m$)($...$)). We will then perform our test instances in each one of the two slightly different specifications, measure and compare their running time.
+\tab We will use two different constraint specifications for the pizza problem and will compare them. While writing the specification on \textbf{Minizinc}, there was an impression that when we specify constraints in linear form, where "linear" means that the problem is not specified nestedly such as \textbf{constraint forall}($p$ \textbf{in} $1..n$, $c$ \textbf{in} $1..m$)($...$), they seem to be optimized and perform faster than their nested equivalent form \textbf{constraint forall}($p$ \textbf{in} $1..n$)(\textbf{forall} $c$ \textbf{in} $1..m$)($...$)). We will then evaluate our test instances in each one of the two slightly different specifications, measure and compare their running time.
 \\
 \\
 \tab The tests will be performed using the solver \textit{Gecode $6.1.0$} built-in on \textbf{Minizinc} and the evaluation environment is a Macbook Pro with a 2.2GHz quad-core Intel Core i7 processor and 16GB RAM.
+\\
+\\
+The actual representation of the outcome will be in the final version of the project report, as this only a draft.
 \section{Discussion}
 \section{Data}
 \end{document}
