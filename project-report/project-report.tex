@@ -48,34 +48,34 @@ The pizza problem is as follows:
 \end{algorithmic}
 \tab To find a solution to instance $\mathcal{L}$ we must solve for vocabulary $\mathcal{L'}$ and $\mathcal{L'}$-structure $\mathcal{M}$ and satisfy the problem constraints in \textbf{Minizinc}:
 \begin{itemize}
-\item If we paid for a pizza $p$, then it cannot be in the set of free pizzas
+\item $C_1$. If we paid for a pizza $p$, then it cannot be in the set of free pizzas
 \begin{algorithmic}
 \State \textbf{constraint forall} ($p$ \textbf{in} $1..n$)
 \State \tab\tab $(Paid[p]\leftrightarrow
            \textbf{not exists}(v \text{ in } 1..m)(UsedFor[v, p]));$
 \\
 \end{algorithmic}
-\item If voucher $v$ is used, then it must get at least one free pizza $p$ with it
+\item $C_2$. If voucher $v$ is used, then it must get at least one free pizza $p$ with it
 \begin{algorithmic}
 \State \textbf{constraint forall} ($v$ \textbf{in} $1..m$)
 \State \tab\tab $(Used[v]\leftrightarrow
            \textbf{exists}(p \textbf{ in } 1..n)(UsedFor[v, p]));$
 \\
 \end{algorithmic}
-\item Any used voucher $v$ must be justified by paying for exactly some pizzas $p$
+\item $C_3$. Any used voucher $v$ must be justified by paying for exactly some pizzas $p$
 \begin{algorithmic}
 \State \textbf{constraint forall} ($v$ \textbf{in} $1..m$)
 \State \tab\tab $(Used[v]\rightarrow$
 \State \tab\tab\tab $\textbf{sum}(p \text{ in } 1..n)(Justifies[v, p]) >= buy[v]);$
 \\
 \end{algorithmic}
-\item The number of free pizzas cannot be greater than what is possible by using voucher $v$
+\item $C_4$. The number of free pizzas cannot be greater than what is possible by using voucher $v$
 \begin{algorithmic}
 \State \textbf{constraint forall} ($v$ \textbf{in} $1..m$)
 \State \tab\tab $(\textbf{sum}(p \text{ in } 1..n)(UsedFor[v, p]) <= free[v])$;
 \\
 \end{algorithmic}
-\item For every two pizzas $p_1, p_2$, if $p_1$ was a pizza we got for free with voucher $v$ and $p_2$ is a pizza we paid with voucher $v$, then the price of $p_1$ must be less or equal the price of $p_2$
+\item $C_5$. For every two pizzas $p_1, p_2$, if $p_1$ was a pizza we got for free with voucher $v$ and $p_2$ is a pizza we paid with voucher $v$, then the price of $p_1$ must be less or equal the price of $p_2$
 \begin{algorithmic}
 \State \textbf{constraint forall}($p1$, $p2$ \textbf{in} $1..n$ \textbf{where} $p1 \text{ != } p2,$
 \State \tab\tab\tab\tab\tab\tab\tab\tab $\text{ } c$ \textbf{in} $1..m$)
@@ -83,20 +83,20 @@ The pizza problem is as follows:
 \State \tab\tab\tab\tab $price[p1] <= price[p2]);$
 \\
 \end{algorithmic}
-\item Two vouchers $v_1, v_2$ cannot be justified by using the same paid pizza $p$
+\item $C_6$.Two vouchers $v_1, v_2$ cannot be justified by using the same paid pizza $p$
 \begin{algorithmic}
 \State \textbf{constraint forall} ($v1, v2$ \textbf{in} $1..m$ \textbf{where} $v1$ != $v2,$
 \State \tab\tab\tab\tab\tab\tab\tab\tab $\text{ } p$ \textbf{in} $1..n$)
 \State \tab\tab $(Justifies[v1, p] \rightarrow \textbf{not} (Justifies[v2, p]));$
 \\
 \end{algorithmic}
-\item We pay for every pizza $p$ used to justify use of a voucher $v$
+\item $C_7$. We pay for every pizza $p$ used to justify use of a voucher $v$
 \begin{algorithmic}
 \State \textbf{constraint forall} ($p$ \textbf{in} $1..n$, $v$ \textbf{in} $1..m$)
 \State \tab\tab $(Justifies[v, p] \rightarrow Paid[p]);$
 \\
 \end{algorithmic}
-\item The pairs in $Justifies$ and $UsedFor$ can only be consisting of a voucher $v$ and a pizza $p$
+\item $C_8$ and $C_9$. The pairs in $Justifies$ and $UsedFor$ can only be consisting of a voucher $v$ and a pizza $p$
 \begin{algorithmic}
 \State \textbf{constraint forall} ($v$ \textbf{in} $1..m$, $p$ \textbf{in} $1..n$)
 \State \tab\tab $(Justifies[v, p] \rightarrow (v \textbf{ in } 1..m \land p \textbf{ in } 1..n));$
@@ -104,7 +104,7 @@ The pizza problem is as follows:
 \State \tab\tab $(Used[v, p] \rightarrow (v \textbf{ in } 1..m \land p \textbf{ in } 1..n));$
 \\
 \end{algorithmic}
-\item The total cost ($k$, the sum of all paid pizzas) must be less or equal the sum of all pizza prices
+\item $C_{10}$. The total cost ($k$, the sum of all paid pizzas) must be less or equal the sum of all pizza prices
 \begin{algorithmic}
 \State \textbf{int}: $total$ = \textbf{sum}($price$);
 \State \textbf{var int}: $k$ = (\textbf{sum}($p$ \textbf{in} $1..n)(Paid[p] * price[p]));$
