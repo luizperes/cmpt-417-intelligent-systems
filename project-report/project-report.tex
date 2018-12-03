@@ -212,6 +212,23 @@ We created initially three test instances (the ones given in the \textit{LP/CP P
 \end{algorithmic}
 \end{itemize}
 \tab When implementing the constraints on \textbf{Minizinc}, we initially used the instances Test 1, Test 2 and Test 3 so to guarantee that the specification was minimally correct before testing the other test instances Test 4 through Test 10. The conclusion is that the specification was working correctly as per the table below:
+\\
+\\
+\begin{tabular}{ c | c | c | c}
+ \hline
+  Instance & Least cost ($k$) & Output cost ($k$) & Runtime
+  \\ \hline
+      Test 1 & $35$ & $35$ & $149$ \textit{msec}\\ \hline 
+      Test 2 & $35$ & $35$  &  $153$ \textit{msec}  \\ \hline
+      Test 3 & $340$& $340$ &  $176$ \textit{msec} \\ \hline
+      Test 4 & $500$ & $500$ &  $863$ \textit{msec} \\ \hline
+      Test 5 & $225$ & $225$ &  $170$ \textit{msec} \\ \hline
+      Test 6 & $1$ & $1$  &  $144$ \textit{msec} \\ \hline
+      Test 7 & $91$ & $91$  &  $171$ \textit{msec} \\ \hline
+      Test 8 & $8$ & $8$  &  $138$ \textit{msec} \\ \hline
+      Test 9 & $135$ & $135$  &  $155$ \textit{msec} \\ \hline
+      Test 10 & $115$ & $115$  &  $162$ \textit{msec} \\ \hline
+  \end{tabular}
 \section{Empirical Performance}
 \section{Discussion}
 \section{Data}
