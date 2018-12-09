@@ -119,7 +119,7 @@ The pizza problem is as follows:
 \end{algorithmic}
 \end{itemize}
 \section{Testing}
-We created initially three test instances (the ones given in the \textit{LP/CP Programming Contest 2015}) so to test if our specification was correct as defined on the contest and added seven so to evaluate how efficient the specification solve different instances of the same problem. Each data in the test assign values to the number $n$ of pizzas, the number $m$ of vouchers, the map $price$ of pizzas prices and the maps $buy$ and $free$ of vouchers, therefore establishing the universe $M$ (all the numbers appearing in the structure). The detailed list of test instances were as below:
+We created initially three test instances (the ones given in the \textit{LP/CP Programming Contest 2015}) so to test if our specification was correct as defined on the contest and added seven so to evaluate how efficient the specification solve different instances of the same problem. It was finally added a last test instance with high numbers $m$ and $n$ so to test how the specification reacts to large problem instances. Each data in the test assign values to the number $n$ of pizzas, the number $m$ of vouchers, the map $price$ of pizzas prices and the maps $buy$ and $free$ of vouchers, therefore establishing the universe $M$ (all the numbers appearing in the structure). The detailed list of test instances were as below:
 \begin{itemize}
 \item Test 1: given in \textit{LP/CP Programming Contest 2015}
 \begin{algorithmic}
@@ -211,8 +211,16 @@ We created initially three test instances (the ones given in the \textit{LP/CP P
 \State $free = [1, 1, 1, 2, 2];$
 \\
 \end{algorithmic}
+\item Test 11: Testing how the specification reacts to large instances (check file \textbf{data11.dzn} for all pizza prices.
+\begin{algorithmic}
+\State $n = 30;$
+\State $price = [100, 100, 30, 44, 8, 44, ... ,38, 48, 30, 20, 50];$
+\State $m = 20;$
+\State $buy = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 2, 5, 3, 6, 7, 4, 3, 9, 10];$
+\State $free = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 4, 3, 2, 2, 8, 4, 3, 6, 5];$
+\end{algorithmic}
 \end{itemize}
-\tab When implementing the constraints on \textbf{Minizinc}, we initially used the instances Test 1, Test 2 and Test 3 so to guarantee that the specification was minimally correct before testing the other test instances Test 4 through Test 10. The conclusion is that the specification was working correctly as per the table below:
+\tab When implementing the constraints on \textbf{Minizinc}, we initially used the instances Test 1, Test 2 and Test 3 so to guarantee that the specification was minimally correct before testing the other test instances Test 4 through Test 10. Test 11 was too large and did not terminate. The conclusion is that the specification was working correctly as per the table below:
 \\
 \\
 \begin{tabular}{ c | c | c | c}
@@ -229,7 +237,9 @@ We created initially three test instances (the ones given in the \textit{LP/CP P
       Test 8 & $8$ & $8$  &  $138$ \textit{msec} \\ \hline
       Test 9 & $135$ & $135$  &  $155$ \textit{msec} \\ \hline
       Test 10 & $115$ & $115$  &  $162$ \textit{msec} \\ \hline
+      Test 11 & unknown & unknown  &  infinite \\ \hline
   \end{tabular}
+Obs.: The table shows that when a problem instance is very large, the problem might take too much time to answer (it was waited 1 hour and 6 minutes). It was expected as the optimization for the SAT problem is NP-hard.
 \section{Empirical Performance}
 For means of empirical performance of the project, we will try to answer the question \#1: "Which is the best way to express a constraint? There is often more than one reasonable way to express a particular constraint on the solutions in a particular language, and sometimes these choices can have a very large effect on running time. You can compare performance with different versions of one constraint, or compare two very different specifications".
 \\
@@ -264,5 +274,6 @@ The files used in this project were:
 \item \textbf{data8.dzn}: Test 8 data file.
 \item \textbf{data9.dzn}: Test 9 data file.
 \item \textbf{data10.dzn}: Test 10 data file.
+\item \textbf{data11.dzn}: Test 10 data file.
 \end{itemize}
 \end{document}
