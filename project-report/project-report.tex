@@ -248,6 +248,11 @@ For means of empirical performance of the project, we will try to answer the que
 \\
 \\
 \tab We created two different constraint specifications for the pizza problem and compared them. The first specification is the one specified in this document. The second specification is a modification of the first modification, where we use \textbf{sets} instead of \textbf{arrays} for the symbols $Paid$ and $Used$ (details of implementation can be found on pizza\_solution\_comp.mzn) . Also, for the second specification we tested with and without constraint $C_{10}$, that seemed to have kept the correctness of the specification and reduced the total running time. Finally, we also only used linear constraint definitions on first specification and only nested constraint definitions on the second.
+\\
+\\
+\tab The tests were performed using the solver \textit{Gecode $6.1.0$} built-in on \textbf{Minizinc} and the evaluation environment is a Macbook Pro with a 2.2GHz quad-core Intel Core i7 processor and 16GB RAM.
+\\
+\\
 \begin{tabular}{ c | c | c | c}
  \hline
   Instance &Solution 1& Solution 2 & Solution 2 w/o $C_{10}$
@@ -267,12 +272,6 @@ For means of empirical performance of the project, we will try to answer the que
 \includegraphics[scale=0.4]{comparizon_img.png}\\
 
 We will then evaluate our test instances in each one of the two slightly different specifications, measure and compare their running time.
-\\
-\\
-\tab The tests will be performed using the solver \textit{Gecode $6.1.0$} built-in on \textbf{Minizinc} and the evaluation environment is a Macbook Pro with a 2.2GHz quad-core Intel Core i7 processor and 16GB RAM.
-\\
-\\
-The actual representation of the outcome will be in the final version of the project report, as this only a draft.
 \section{Discussion}
 Solving problems with \textit{SAT solvers} was initially very challenging because it is a completely different way of programming per se, as the problem is solved completely with a sort of declarative programming paradigm by constructing a specification with constraints and letting the computer do the actual problem solving, which is very different from the approach of solving problems I was accustomed (imperative programming). For this reason, I can say that I learned a new way of solving problems.
 \\
