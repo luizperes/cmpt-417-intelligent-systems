@@ -1,0 +1,16 @@
+-------------------------------------------------------------
+| Instance | Solution 1 | Solution 2   | Solution 2 w/o C10 |
+-------------------------------------------------------------
+| Test 1   | 149 msec   | 159 msec     | 152 msec           |
+| Test 2   | 153 msec   | 193 msec     | 154 msec           |
+| Test 3   | 176 msec   | 237 msec     | 218 msec           |
+| Test 4   | 863 msec   | 20s 419 msec | 17s 548msec        |
+| Test 5   | 170 msec   | 183 msec     | 190 msec           |
+| Test 6   | 144 msec   | 168 msec     | 128 msec           |
+| Test 7   | 171 msec   | 192 msec     | 169 msec           |
+| Test 8   | 138 msec   | 166 msec     | 164 msec           |
+| Test 9   | 155 msec   | 203 msec     | 155 msec           |
+| Test 10  | 162 msec   | 183 msec     | 164 msec           |
+| Test 11  | inf        | inf          | inf                |
+-------------------------------------------------------------
+ 
