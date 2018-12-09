@@ -23,51 +23,56 @@ array[1..m, 1..n] of var bool: UsedFor;
 
 % ================= CONSTRAINTS
 %
-% for every pizza p, if p in Paid then p not in UsedFor, for all v
+% C_1. If we paid for a pizza p, then it cannot be in the set of free pizzas
 constraint forall(p in 1..n)
             (Paid[p]
             <->
             not exists(v in 1..m)(UsedFor[v, p]));
 
-% for every voucher v, if v in Used then v in UsedFor, for some p
+% C_2. If voucher v is used, then it must get at least one free pizza p with it
 constraint forall(v in 1..m)
             (Used[v]
             <->
             exists(p in 1..n)(UsedFor[v, p]));
 
-% for every voucher v, if v in Used, the # of Justifies p cannot < buy
+% C_3. Any used voucher v must be justified by paying for exactly some pizzas p
 constraint forall(v in 1..m)
             (Used[v]
             ->
             sum(p in 1..n)(Justifies[v, p]) >= buy[v]);
 
-% for every voucher v, if v in UsedFor, the # of p cannot > free
+% C_4. The number of free pizzas cannot be greater than what is possible by
+%      using voucher v
 constraint forall(v in 1..m)
             (sum(p in 1..n)(UsedFor[v, p]) <= free[v]);
 
-% for every pair p1, p2 if p1 in UsedFor and p2 in Justifies then p1 <= p2
+% C_5. For every two pizzas p_1, p_2, if p_1 was a pizza we got for free
+%      with voucher v and p_2 is a pizza we paid with voucher v, then the
+%      price of p_1 must be less or equal the price of p_2
 constraint forall(p1, p2 in 1..n where p1 != p2, c in 1..m)
             ((UsedFor[c, p1] /\ Justifies[c, p2])
              ->
              price[p1] <= price[p2]);
 
-% for every pair c1, c2 if c1 in Justifies a p then c2 not Justifies same p
+% C_6. Two vouchers v_1, v_2 cannot be justified by using the same paid pizza p
 constraint forall(v1, v2 in 1..m where v1 != v2, p in 1..n)
             (Justifies[v1, p]
             ->
             not (Justifies[v2, p]));
 
-% we need to pay for the pizzas we used on coupon c
+% C_7. We pay for every pizza p used to justify use of a voucher v
 constraint forall(p in 1..n, c in 1..m)
             (Justifies[c, p] -> Paid[p]);
 
-% check if v and p are in range in Justifies
+% C_8. The pairs in Justifies can only be consisting of a
+%      pair (v, p) for voucher v and a pizza p
 constraint forall(v in 1..m, p in 1..n)
             (Justifies[v, p]
             ->
             (v in 1..m /\ p in 1..n));
 
-% check if v and p are in range in UsedFor
+% C_9. The pairs in UsedFor can only be consisting of a
+%      pair (v, p) for voucher v and a pizza p
 constraint forall(v in 1..m, p in 1..n)
             (UsedFor[v,p]
             ->
@@ -77,7 +82,8 @@ constraint forall(v in 1..m, p in 1..n)
 int: total = sum(price);
 var int: COST =(sum(p in 1..n)(Paid[p] * price[p]));
 
-% make sure the COST is at least as good as the total
+% C_10. The total cost ($k$, the sum of all paid pizzas) 
+%       must be less or equal the sum of all pizza prices
 constraint COST <= total;
 
 solve minimize COST;
