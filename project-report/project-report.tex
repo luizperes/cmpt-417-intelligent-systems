@@ -36,9 +36,10 @@ The pizza problem is as follows:
 \State \textbf{int}: m;
 \State \textbf{array}[1..m] \textbf{of int}: buy;
 \State \textbf{array}[1..m] \textbf{of int}: free;
+\State \textit{\% \textbf{k} is defined along with constraint $C_{10}$ below}
 \\
 \end{algorithmic}
-\tab We need to find an assignment of pizzas and vouchers that minimize the total cost $k$ and for this reason we will create a vocabulary $\mathcal{L'}$ that extends $\mathcal{L}$, where $\mathcal{L}$  and $\mathcal{L'}$ share the same universe. Let $\mathcal{L'}$ be defined by the symbols in $\mathcal{L}$ and the symbols $[ Paid, Used, Justifies, UsedFor ]$, where the symbol $Paid : [n] \rightarrow \{ 0, 1\}$ is an unary symbol representing the set of paid pizzas, $Used: [m] \rightarrow \{ 0, 1\}$ is an unary symbol representing the set of used vouchers, $Justifies: [m] \rightarrow [n] \rightarrow \{ 0, 1\}$ is a binary symbol representing the set of vouchers $v$ that will be used by paying for pizzas $p$ and $UsedFor: [m] \rightarrow [n] \rightarrow \{ 0, 1\}$ is a binary symbol representing the set of free pizzas $p$ that were obtained by using vouchers $v$. The \textbf{Minizinc} equivalent form of $\mathcal{L'}$ is:
+\tab Our problem is to find an assignment of pizzas and vouchers that minimize the total cost $k$ and for this reason we will create a vocabulary $\mathcal{L'}$ that extends $\mathcal{L}$, where $\mathcal{L}$  and $\mathcal{L'}$ share the same universe $M$. Let $\mathcal{L'}$ be defined by the symbols in $\mathcal{L}$ and the symbols $[ Paid, Used, Justifies, UsedFor ]$, where the symbol $Paid : [n] \rightarrow \{ 0, 1\}$ is an unary symbol representing the set of paid pizzas, $Used: [m] \rightarrow \{ 0, 1\}$ is an unary symbol representing the set of used vouchers, $Justifies: [m] \rightarrow [n] \rightarrow \{ 0, 1\}$ is a binary symbol representing the set of vouchers $v$ that will be used by paying for pizzas $p$ and $UsedFor: [m] \rightarrow [n] \rightarrow \{ 0, 1\}$ is a binary symbol representing the set of free pizzas $p$ that were obtained by using vouchers $v$. The \textbf{Minizinc} equivalent form of $\mathcal{L'}$ is:
 \begin{algorithmic}
 \State \textbf{array}$[1..n]$ \textbf{of var bool}: Paid;
 \State \textbf{array}$[1..m]$ \textbf{of var bool}: Used;
@@ -46,16 +47,16 @@ The pizza problem is as follows:
 \State \textbf{array}$[1..m, 1..n]$ \textbf{of var bool}: UsedFor;
 \\
 \end{algorithmic}
-\tab To find a solution to instance $\mathcal{L}$ we must solve for vocabulary $\mathcal{L'}$ and $\mathcal{L'}$-structure $\mathcal{M}$ and satisfy the problem constraints in \textbf{Minizinc}:
+\tab To find a solution to instance $\mathcal{L}$ we must solve for vocabulary $\mathcal{L'}$ and $\mathcal{L'}$-structure $\mathcal{M'}$ and satisfy the problem constraints in \textbf{Minizinc}:
 \begin{itemize}
-\item $C_1$. If we paid for a pizza $p$, then it cannot be in the set of free pizzas
+\item $C_1$. If we paid for a pizza $p$, then $p$ cannot be in the set of free pizzas
 \begin{algorithmic}
 \State \textbf{constraint forall} ($p$ \textbf{in} $1..n$)
 \State \tab\tab $(Paid[p]\leftrightarrow
            \textbf{not exists}(v \text{ in } 1..m)(UsedFor[v, p]));$
 \\
 \end{algorithmic}
-\item $C_2$. If voucher $v$ is used, then it must get at least one free pizza $p$ with it
+\item $C_2$. If voucher $v$ is used, then $v$ must get at least one free pizza $p$ with it
 \begin{algorithmic}
 \State \textbf{constraint forall} ($v$ \textbf{in} $1..m$)
 \State \tab\tab $(Used[v]\leftrightarrow
