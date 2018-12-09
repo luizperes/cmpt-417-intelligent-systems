@@ -248,6 +248,23 @@ For means of empirical performance of the project, we will try to answer the que
 \\
 \\
 \tab We created two different constraint specifications for the pizza problem and compared them. The first specification is the one specified in this document. The second specification is a modification of the first modification, where we use \textbf{sets} instead of \textbf{arrays} for the symbols $Paid$ and $Used$ (details of implementation can be found on pizza\_solution\_comp.mzn) . Also, for the second specification we tested with and without constraint $C_{10}$, that seemed to have kept the correctness of the specification and reduced the total running time. Finally, we also only used linear constraint definitions on first specification and only nested constraint definitions on the second.
+\begin{tabular}{ c | c | c | c}
+ \hline
+  Instance &Solution 1& Solution 2 & Solution 2 w/o $C_{10}$
+  \\ \hline
+      Test 1 & $149$ \textit{msec} & $159$ \textit{msec} & $152$ \textit{msec} \\ \hline 
+      Test 2 & $153$ \textit{msec} & $193$ \textit{msec} & $154$ \textit{msec}  \\ \hline
+      Test 3 & $176$ \textit{msec} & $237$ \textit{msec} & $218$ \textit{msec} \\ \hline
+      Test 4 & $863$ \textit{msec} & $20$\textit{s} $419$ \textit{msec} & $17$\textit{s} $548$ \textit{msec} \\ \hline
+      Test 5 & $170$ \textit{msec} & $183$ \textit{msec} & $190$ \textit{msec} \\ \hline
+      Test 6 & $144$ \textit{msec} & $168$ \textit{msec} & $128$ \textit{msec} \\ \hline
+      Test 7 & $171$ \textit{msec} & $192$ \textit{msec} & $169$ \textit{msec} \\ \hline
+      Test 8 & $138$ \textit{msec} & $166$ \textit{msec} & $164$ \textit{msec} \\ \hline
+      Test 9 & $155$ \textit{msec} & $203$ \textit{msec} & $155$ \textit{msec} \\ \hline
+      Test 10 & $162$ \textit{msec} & $183$ \textit{msec} & $164$\textit{msec} \\ \hline
+      Test 11 & inf & inf & inf\\ \hline
+  \end{tabular}
+\includegraphics[scale=0.4]{comparizon_img.png}\\
 
 We will then evaluate our test instances in each one of the two slightly different specifications, measure and compare their running time.
 \\

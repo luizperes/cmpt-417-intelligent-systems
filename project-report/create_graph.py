@@ -26,10 +26,11 @@ Sol2 = [0.159, 0.193, 0.237, 20.419, 0.183, 0.168, 0.192, 0.166, 0.203, 0.183, f
 Sol3 = [0.152, 0.154, 0.218, 17.548, 0.190, 0.128, 0.169, 0.164, 0.155, 0.164, float("inf")]
 
 plt.figure()
-plt.plot(Test, Sol1)
-plt.plot(Test, Sol2)
-plt.plot(Test, Sol3)
-plt.ylabel('Negative log likelihood')
-plt.title('Training logistic regression')
-plt.xlabel('Epoch')
+plt.bar(np.subtract(Test, 0.2), Sol1, width=0.2, color='b',align='center', label='Solution 1')
+plt.bar(Test, Sol2, width=0.2,color='g',align='center', label='Solution 2')
+plt.bar(np.add(Test, 0.2), Sol3, width=0.2, color='r',align='center', label='Solution 2 w/o C10')
+plt.ylabel('Running time (in seconds)')
+plt.title('Specification versus running time')
+plt.xlabel('Test instance')
+plt.legend()
 plt.show()
