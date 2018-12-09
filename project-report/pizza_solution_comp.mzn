@@ -11,15 +11,10 @@ int: m;
 array[1..m] of int: buy;
 array[1..m] of int: free;
 
-%  define the possible values in the sets of pizzas
-set of int: Pizzas = 1..n;
-%  define the possible values in the sets of vouchers
-set of int: Vouchers = 1..m;
-
 % unary relation for the set of paid pizzas
-var set of Pizzas: Paid;
+var set of 1..n: Paid;
 % unary relation for the set of used coupons
-var set of Vouchers: Used; 
+var set of 1..m: Used; 
 
 % Justifies(v, p) holds if pizza p was paid and used voucher c
 array[1..m, 1..n] of var bool: Justifies;
@@ -33,7 +28,7 @@ array[1..m, 1..n] of var bool: UsedFor;
 constraint forall(p in 1..n)
             ((p in Paid)
             <->
-            not exists(v in Vouchers)(UsedFor[v, p]));
+            not exists(v in Used)(UsedFor[v, p]));
 
 % C_2. If voucher v is used, then it must get at least one free pizza p with it
 constraint forall(v in 1..m)
@@ -50,7 +45,7 @@ constraint forall(v in 1..m)
 % C_4. The number of free pizzas cannot be greater than what is possible by
 %      using voucher v
 constraint forall(v in 1..m)
-            (sum(p in 1..n)(UsedFor[v, p]) <= free[v]);
+            ((v in Used) -> sum(p in 1..n)(UsedFor[v, p]) <= free[v]);
 
 % C_5. For every two pizzas p_1, p_2, if p_1 was a pizza we got for free
 %      with voucher v and p_2 is a pizza we paid with voucher v, then the
