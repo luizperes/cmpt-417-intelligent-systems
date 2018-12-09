@@ -291,13 +291,13 @@ Two other interesting points that were found while evaluating our specifications
 \\
 Finally, Solution 1 outperforms Solution 2 with and without constraint $C_{10}$ in all test instances (except Test instance 11, that never terminated for any of the three approaches).
 \section{Discussion}
-Solving problems with \textit{SAT solvers} was initially very challenging because it is a completely different way of programming per se, as the problem is solved completely with a sort of declarative programming paradigm by constructing a specification with constraints and letting the computer do the actual problem solving, which is very different from the approach of solving problems I was accustomed (imperative programming). For this reason, I can say that I learned a new way of solving problems.
+Solving problems with \textit{SAT solvers} was initially very challenging because it is a completely different way of programming per se, as the problem is solved completely with a sort of declarative programming paradigm by constructing a specification with constraints and letting the computer do the actual problem solving, which is very different from the approach of solving problems I was accustomed (imperative programming). For this reason, I can say that I learned a new way of thinking with the satisfiability-based problem solving.
 \\
 \\
-\tab I also learned that there are Domain Specific Languages tools specialized in solving \textit{SAT} problems and got intuition of how to make one with techniques such as breaking the problem in vocabularies and structures, then perform grounding in it so to later reduce the \textit{SAT} problem to our problem and verify if the formula is satisfiable and that, by running \textit{SAT} many times, you can optimize the solution for your problem.
+\tab I also learned that there are Domain Specific Languages tools specialized in solving \textit{SAT} problems such as \textbf{Minizinc} and got intuition of how to make one with techniques such as breaking the problem in vocabularies and structures, then perform grounding in it so to later reduce the \textit{SAT} problem to our problem and verify if the formula is satisfiable and that, by running \textit{SAT} many times, you can optimize your problem solution.
 \\
 \\
-\tab Finally, I also learned that there many people in this field trying to improve the algorithms of \textit{SAT solvers} and that depending on the tool you use and the constraints you specify, the running time of the process of problem solving might vary for better or for worse.
+\tab Finally, I realized that is very important on how well you define specifications for satisfiability-based problems, where the addition or removal of a constraint, even if it is redundant, might cost a lot on the final running time of the solution. I was impressed that only by changing the data structure we were using, the running time increased more than 20 times. Thus, it could be that the process depends greatly on the tool you use and the constraints you specify, since the running time of the process of problem solving might vary for better or for worse.
 \section{Data}
 The files used in this project were:
 \begin{itemize}
