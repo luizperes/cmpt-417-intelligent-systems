@@ -220,9 +220,7 @@ We created initially three test instances (the ones given in the \textit{LP/CP P
 \State $free = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 4, 3, 2, 2, 8, 4, 3, 6, 5];$
 \end{algorithmic}
 \end{itemize}
-\tab When implementing the constraints on \textbf{Minizinc}, we initially used the instances Test 1, Test 2 and Test 3 so to guarantee that the specification was minimally correct before testing the other test instances Test 4 through Test 10. Test 11 was too large and did not terminate. The conclusion is that the specification was working correctly as per the table below:
-\\
-\\
+\tab We initially used the instances Test 1, Test 2 and Test 3 so to guarantee that the specification was minimally correct before testing the other test instances Test 4 through Test 10. Test 11 was too large and did not terminate. The conclusion is that the specification was working correctly as per the table below:
 \begin{tabular}{ c | c | c | c}
  \hline
   Instance & Least cost ($k$) & Output cost ($k$) & Runtime
@@ -239,7 +237,9 @@ We created initially three test instances (the ones given in the \textit{LP/CP P
       Test 10 & $115$ & $115$  &  $162$ \textit{msec} \\ \hline
       Test 11 & unknown & unknown  &  infinite \\ \hline
   \end{tabular}
-Obs.: The table shows that when a problem instance is very large, the problem might take too much time to answer (it was waited 1 hour and 6 minutes). It was expected as the optimization for the SAT problem is NP-hard.
+\vspace*{5pt}
+
+\tab Obs.: The table shows that when a problem instance is very large, the problem might take too much time to answer (it was waited 1 hour and 6 minutes). It was expected as the optimization for the SAT problem is NP-hard and therefore there will exist cases where it is impossible to obtain a fast answer even with the best SAT solvers, unless P=NP.
 \section{Empirical Performance}
 For means of empirical performance of the project, we will try to answer the question \#1: "Which is the best way to express a constraint? There is often more than one reasonable way to express a particular constraint on the solutions in a particular language, and sometimes these choices can have a very large effect on running time. You can compare performance with different versions of one constraint, or compare two very different specifications".
 \\
@@ -247,10 +247,20 @@ For means of empirical performance of the project, we will try to answer the que
 \tab While writing the specifications for the Pizza problem on \textbf{Minizinc}, there was an impression that when we specify constraints that use \textbf{sets} rather than \textbf{arrays} for satisfiability, their array versions are faster than the ones that use sets for given problem instances. It also seemed that constraints were faster in linear form, where "linear" means that the problem is not specified nestedly such as \textbf{constraint forall}($p$ \textbf{in} $1..n$, $c$ \textbf{in} $1..m$)($...$). Before the evaluation of the two specifications, the linear form seemed to be optimized and perform faster than their nested equivalent form \textbf{constraint forall}($p$ \textbf{in} $1..n$)(\textbf{forall} $c$ \textbf{in} $1..m$)($...$)). Below we show that while the data structure we use on constraints, \textbf{sets} versus \textbf{arrays} in this case, change the running time of \textbf{Minizinc}, \textbf{linear} versus \textbf{nested} constraint forms don't seem to have any (or little) runtime differences (e.g linear form could be a syntactic sugar for its nested form).
 \\
 \\
-\tab We created two different constraint specifications for the pizza problem and compared them. The first specification is the one specified in this document. The second specification is a modification of the first modification, where we use \textbf{sets} instead of \textbf{arrays} for the symbols $Paid$ and $Used$ (details of implementation can be found on pizza\_solution\_comp.mzn) . Also, for the second specification we tested with and without constraint $C_{10}$, that seemed to have kept the correctness of the specification and reduced the total running time. Finally, we also only used linear constraint definitions on first specification and only nested constraint definitions on the second.
+\tab We created two different constraint specifications for the pizza problem and compared them. The first specification is the one specified in this document. The second specification is a modification of the first modification, where we use \textbf{sets} instead of \textbf{arrays} for the symbols $Paid$ and $Used$. Also, for the second specification we tested with and without constraint $C_{10}$, that seemed to have kept the correctness of the specification and reduced the total running time. Finally, we also only used linear constraint definitions on first specification and only nested constraint definitions on the second.
 \\
 \\
-\tab The tests were performed using the solver \textit{Gecode $6.1.0$} built-in on \textbf{Minizinc} and the evaluation environment is a Macbook Pro with a 2.2GHz quad-core Intel Core i7 processor and 16GB RAM.
+\textbf{Spec 1}:
+\begin{algorithmic}
+\State \textbf{array}$[1..n]$ \textbf{of var bool}: Paid;
+\State \textbf{array}$[1..m]$ \textbf{of var bool}: Used;
+\end{algorithmic}
+\textbf{Spec 2}:
+\begin{algorithmic}
+\State \textbf{var set of} $[1..n]$: Paid; \textit{ // spec 2 redefines $Paid$}
+\State \textbf{var set of }$[1..m]$: Used; \textit{ // spec 2 redefines $Used$}
+\end{algorithmic}
+\tab As you will see on the table and graph below, this small change changes the running time greatly for some instances of the problem, such as \textbf{Test 4}.
 \\
 \\
 \begin{tabular}{ c | c | c | c}
@@ -270,6 +280,7 @@ For means of empirical performance of the project, we will try to answer the que
       Test 11 & inf & inf & inf\\ \hline
   \end{tabular}
 \includegraphics[scale=0.4]{comparizon_img.png}\\
+\tab The tests were performed using the solver \textit{Gecode $6.1.0$} built-in on \textbf{Minizinc} and the evaluation environment is a Macbook Pro with a 2.2GHz quad-core Intel Core i7 processor and 16GB RAM.
 
 We will then evaluate our test instances in each one of the two slightly different specifications, measure and compare their running time.
 \section{Discussion}
